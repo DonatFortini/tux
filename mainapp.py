@@ -2,7 +2,7 @@ from tkinter import *
 from PIL import Image, ImageTk, ImageSequence
 import time
 import platform
-import os
+
 
 def walk():
     global i, direction
@@ -37,7 +37,8 @@ if platform.system() != 'Linux':
     root.wm_attributes("-transparentcolor", "white")
 else:
     label = Label(root)
-    root.attributes("-alpha",0.0)
+    root.wm_attributes("-type", "dock")
+    root.attributes("-alpha", 0.1)
 
 root.geometry("500x170+0+850")
 
