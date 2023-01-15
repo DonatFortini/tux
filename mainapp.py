@@ -1,6 +1,8 @@
 from tkinter import *
 from PIL import Image, ImageTk, ImageSequence
 import time
+import platform
+import os
 
 def walk():
     global i, direction
@@ -28,17 +30,21 @@ def hey(event):
         root.update()
 
 root = Tk()
-screen_height = root.winfo_screenheight()
-window_height = root.winfo_height()
-root.geometry("500x170+0+850")
 root.overrideredirect(1)
+if platform.system() != 'Linux':
+    root.config(bg='white')
+    label = Label(root, bg='white')
+    root.wm_attributes("-transparentcolor", "white")
+else:
+    label = Label(root)
+    root.attributes("-alpha",0.0)
 
-root.config(bg='white')
+root.geometry("500x170+0+850")
+
+
 i = 0
 direction = 15
-label = Label(root, bg='white')
 label.place(x=0, y=0)
-root.wm_attributes("-transparentcolor", "white")
 label.bind('<Button-1>', hey)
 walk()
 root.mainloop()
