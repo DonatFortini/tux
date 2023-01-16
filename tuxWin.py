@@ -1,7 +1,6 @@
 from tkinter import *
 from PIL import Image, ImageTk, ImageSequence
 import time
-import platform
 
 def walk():
     global i, direction
@@ -30,15 +29,11 @@ def hey(event):
 
 root = Tk()
 root.overrideredirect(1)
-if platform.system() != 'Linux':
-    root.config(bg='white')
-    label = Label(root, bg='white')
-    root.wm_attributes("-transparentcolor", "white")
-else:
-    label = Label(root)
-    label.config(bg=None)
-    root.wm_attributes("-type", "dock")
-    root.attributes("-alpha", 1)
+
+root.config(bg='white')
+label = Label(root, bg='white')
+root.wm_attributes("-transparentcolor", "white")
+
 
 root.geometry("500x170+0+650")
 
