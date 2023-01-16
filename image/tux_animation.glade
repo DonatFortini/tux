@@ -9,6 +9,7 @@
     <property name="decorated">False</property>
     <property name="skip_taskbar_hint">True</property>
     <property name="skip_pager_hint">True</property>
+    <property name="type_hint">2</property>
     <property name="opacity">0.1</property>
     <signal name="destroy" handler="Gtk.main_quit"/>
     <child>
