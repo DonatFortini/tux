@@ -40,7 +40,7 @@ else:
     root.wm_attributes("-type", "dock")
     root.attributes("-alpha", 0.1)
 
-root.geometry("500x170+0+850")
+root.geometry("500x170+0+650")
 
 
 i = 0
