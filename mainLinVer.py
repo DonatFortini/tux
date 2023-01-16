@@ -27,7 +27,7 @@ class TuxAnimation:
         elif self.i <= 15:
             self.direction = 15
         self.i += self.direction
-        self.image.set_margin_left(self.i)
+        self.image.set_margin_start(self.i)
         GLib.timeout_add(150, self.walk)
 
     def hey(self, widget, event):
