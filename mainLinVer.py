@@ -9,7 +9,7 @@ class TuxWalk(QMainWindow):
 
         self.setWindowFlags(Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
-        self.setGeometry(0, 0, 500, 170)
+        self.setGeometry(0, 850, 500, 170)
         
         self.label = QLabel(self)
         self.label.setGeometry(0, 0, 500, 170)
