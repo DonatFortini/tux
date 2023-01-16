@@ -1,50 +1,55 @@
-import time
 import sys
-sys.path.append('/usr/local/lib/python3.10/dist-packages/')
-import gi
-gi.require_version('Gtk', '3.0')
-from gi.repository import Gtk, GdkPixbuf, GLib
+from PyQt5.QtCore import Qt, QTimer
+from PyQt5.QtGui import QPixmap, QMovie
+from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow
 
-class TuxAnimation:
+class TuxWalk(QMainWindow):
     def __init__(self):
-        self.i = 0
+        super().__init__()
+
+        self.setWindowFlags(Qt.X11BypassWindowManagerHint | Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.WindowStaysOnTopHint)
+        self.setAttribute(Qt.WA_TranslucentBackground)
+        self.setGeometry(0, 0, 500, 170)
+        
+        self.label = QLabel(self)
+        self.label.setGeometry(0, 0, 500, 170)
+        self.label.setMouseTracking(True)
+        self.label.mousePressEvent = self.on_mouse_press
+        
         self.direction = 15
-        self.builder = Gtk.Builder()
-        self.builder.add_from_file("image/tux_animation.glade")
-        self.builder.connect_signals(self)
-        self.image = self.builder.get_object("tux_image")
-        self.window = self.builder.get_object("main_window")
-        self.window.move(0,850)
-        self.window.connect("destroy", Gtk.main_quit)
-        self.window.set_opacity(0.5) 
-        self.image.connect("activate", self.hey)
-        self.window.show_all()
-        self.gif = GdkPixbuf.PixbufAnimation.new_from_file("image/tuxwalk.gif")
-        self.iter = self.gif.get_iter()
-        self.image.set_from_pixbuf(self.iter.get_pixbuf())
-        self.walk()
-        time.sleep(1)
-
-    def on_destroy(self, *args):
-        Gtk.main_quit()
-
-    def walk(self):
+        self.i = 0
+        self.walk_movie = QMovie("image/tuxwalk.gif")
+        self.hey_movie = QMovie("image/tux02.gif")
+        self.label.setMovie(self.walk_movie)
+        self.walk_movie.start()
+        self.walk_movie.jumpToFrame(0)
+        
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_animation)
+        self.timer.start(150)
+        
+    def update_animation(self):
         if self.i >= 375:
             self.direction = -15
         elif self.i <= 15:
             self.direction = 15
         self.i += self.direction
-        self.image.set_margin_start(self.i)
-        if self.iter.advance():
-            self.image.set_from_pixbuf(self.iter.get_pixbuf())
-        GLib.timeout_add(150, self.walk)
+        self.label.move(self.i, 0)
         
+    def on_mouse_press(self, event):
+        self.timer.stop()
+        self.label.setMovie(self.hey_movie)
+        self.hey_movie.start()
+        self.hey_movie.frameChanged.connect(self.stop_hey)
 
-    def hey(self, widget, event):
-        gif = GdkPixbuf.PixbufAnimation.new_from_file("image/tux02.gif")
-        self.image.set_from_animation(gif)
-     
+    def stop_hey(self):
+        if self.hey_movie.currentFrameNumber() == self.hey_movie.frameCount() - 1:
+            self.hey_movie.stop()
+            self.label.setMovie(self.walk_movie)
+            self.timer.start()
 
-if __name__ == "__main__":
-    TuxAnimation()
-    Gtk.main()
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    tux_walk = TuxWalk()
+    tux_walk.show()
+    sys.exit(app.exec_())

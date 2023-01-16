@@ -3,7 +3,6 @@ from PIL import Image, ImageTk, ImageSequence
 import time
 import platform
 
-
 def walk():
     global i, direction
     img = Image.open("image/tuxwalk.gif")
@@ -37,8 +36,9 @@ if platform.system() != 'Linux':
     root.wm_attributes("-transparentcolor", "white")
 else:
     label = Label(root)
+    label.config(bg=None)
     root.wm_attributes("-type", "dock")
-    root.attributes("-alpha", 0.1)
+    root.attributes("-alpha", 1)
 
 root.geometry("500x170+0+650")
 
