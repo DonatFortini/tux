@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtCore import Qt, QTimer
-from PyQt5.QtGui import QPixmap, QMovie
+from PyQt5.QtGui import  QMovie
 from PyQt5.QtWidgets import QApplication, QLabel, QMainWindow
 
 class TuxWalk(QMainWindow):
